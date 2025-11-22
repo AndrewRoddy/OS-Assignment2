@@ -142,7 +142,6 @@ void Banker::getNeed() {
         // Add row to list
         need_.push_back(processNeed);
     }
-    return need_;
 }
 // bool Banker::allocatable(int rowIdex) const {
 
