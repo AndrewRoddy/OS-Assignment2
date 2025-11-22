@@ -96,14 +96,61 @@ void Banker::parseFile() {
     }
 }
 
-// void Banker::print() const {
+void Banker::print() const {
+    std::cout << "     Alloc |  Max  | Avail" << std::endl;
+    std::cout << "     ----- | ----- | -----" << std::endl;
+    std::cout << "     A B C | A B C | A B C" << std::endl;
+    std::cout << "     ----- | ----- | -----" << std::endl;
 
-// }
+    for (int y=0; y<allocation_.size(); ++y) {
+        std::cout << "P" << y << " | ";
+
+        // Prints off allocation
+        for (int x=0; x<3; ++x) {
+            std::cout << allocation_[y][x] << " ";
+        }
+
+        std::cout << "| "; // Spacing
+
+        // Prints off Max row
+        for (int x=0; x<3; ++x) {
+            std::cout << max_[y][x] << " ";
+        }
+        
+        std::cout << "| "; // Spacing
+
+        // There is only one line for available
+        if (y==0) {
+            for (int x=0; x<3; ++x) {
+                std::cout << available_[x] << " " ;
+            }
+        };
+        std::cout << std::endl;
+    }
+
+    // for (vector<int> num : allocation_) {
+    //     std::cout << "==";
+    //     for (int n : num) { std::cout << n << "|"; }
+    //     std::cout << '\n';
+    // }
+    
+    // std::cout << "max" << "\n";
+    // for (vector<int> num : max_) {
+    //     std::cout << "==";
+    //     for (int n : num) { std::cout << n << "|"; }
+    //     std::cout << '\n';
+    // }
+    
+    // std::cout << "avail" << "\n";
+    // std::cout << "==";
+    // for (int num : available_) { std::cout << num << "|"; }
+    // std::cout << '\n';
+}
 
 int main() {
     
     // Opens file as the bank on run
     Banker bank("input-file.txt");
-    // bank.print();
+    bank.print();
 
 }
