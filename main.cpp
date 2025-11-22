@@ -23,7 +23,7 @@ public:
     void getNeed();
     void closeFile();
 
-    // bool allocatable(int rowIdex) const;
+    bool allocatable(int, vector<int>) const;
 
 private:
 
@@ -143,9 +143,13 @@ void Banker::getNeed() {
         need_.push_back(processNeed);
     }
 }
-// bool Banker::allocatable(int rowIdex) const {
-
-// }
+bool Banker::allocatable(int rowIndex, vector<int> nowAvailable) const {
+    // If need is ever greater than now available cannot allocate
+    for (int x=0; x<allocation_.size(); ++x) {
+        if (need_[rowIndex][x] > nowAvailable[x]) return false;
+    }
+    return true; // If need is never less than now available
+}
 bool Banker::bankersAlgorithm() const { 
 
     // Makes sure allocation and max have same length
