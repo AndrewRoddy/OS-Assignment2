@@ -11,26 +11,28 @@ public:
     Banker(std::string file) { 
         openFile(file); // Opens the file
         parseFile();    // Gets the variables
+        getNeed();      // Finds the need
         closeFile();    // Closes the file
      }
 
     void print() const;
     bool bankersAlgorithm() const;
 
-    // Getters
-    std::ifstream& getFile() { return file_; };
-    vector<vector<int>> getAllocation() const { return allocation_; }
-    vector<vector<int>> getMax()        const { return max_; }
-    vector<int>         getAvailable()  const { return available_; }
-
-private:
     void openFile(const std::string& fileName);
     void parseFile();
+    void getNeed();
     void closeFile();
+
+    // bool allocatable(int rowIdex) const;
+
+private:
 
     vector<vector<int>> allocation_;
     vector<vector<int>> max_;
     vector<int> available_;
+    
+    vector<vector<int>> need_;
+
     std::ifstream file_;
 };
 
@@ -56,7 +58,6 @@ void Banker::closeFile() {
         std::cout << "\033[37m"; // Reset text color back to white
     }
 }
-
 void Banker::parseFile() {
 
     // Parse Mode
@@ -96,7 +97,6 @@ void Banker::parseFile() {
         }
     }
 }
-
 void Banker::print() const {
     std::cout << "     Alloc |  Max  | Avail" << std::endl;
     std::cout << "     ----- | ----- | -----" << std::endl;
@@ -128,48 +128,30 @@ void Banker::print() const {
         };
         std::cout << std::endl;
     }
-
-    // for (vector<int> num : allocation_) {
-    //     std::cout << "==";
-    //     for (int n : num) { std::cout << n << "|"; }
-    //     std::cout << '\n';
-    // }
-    
-    // std::cout << "max" << "\n";
-    // for (vector<int> num : max_) {
-    //     std::cout << "==";
-    //     for (int n : num) { std::cout << n << "|"; }
-    //     std::cout << '\n';
-    // }
-    
-    // std::cout << "avail" << "\n";
-    // std::cout << "==";
-    // for (int num : available_) { std::cout << num << "|"; }
-    // std::cout << '\n';
 }
-
-bool Banker::bankersAlgorithm() const {
-    // Need is max-allocation
-    vector<vector<int>> need;
-
-    // Makes sure allocation and max have same length
-    if (allocation_.size() != max_.size()) return false;
-
+void Banker::getNeed() { 
     // Iterates through all values in allocation and max
     for (int y=0; y<allocation_.size(); ++y) {
         vector<int> processNeed; // Row
         for (int x=0; x<allocation_[y].size(); ++x) {
             // Get new need value
             int newNeed = max_[y][x] - allocation_[y][x];
-            // std::cout << newNeed << " ";
             // Add value the row
             processNeed.push_back(newNeed);
         }
-        // std::cout << std::endl;
         // Add row to list
-        need.push_back(processNeed);
+        need_.push_back(processNeed);
     }
-    return false;   
+    return need_;
+}
+// bool Banker::allocatable(int rowIdex) const {
+
+// }
+bool Banker::bankersAlgorithm() const { 
+
+    // Makes sure allocation and max have same length
+    if (allocation_.size() != max_.size()) return false;
+    return true;   
 }
 
 int main() {
@@ -177,6 +159,8 @@ int main() {
     // Opens file as the bank on run
     Banker bank("input-file.txt");
     bank.print();
-    bank.bankersAlgorithm();
+    bool safe = bank.bankersAlgorithm();
+    if (safe) std::cout << "System in safe state" << std::endl;
+    else std::cout << "System NOT in safe state" << std::endl;
 
 }
