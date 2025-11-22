@@ -15,6 +15,7 @@ public:
      }
 
     void print() const;
+    bool bankersAlgorithm() const;
 
     // Getters
     std::ifstream& getFile() { return file_; };
@@ -147,10 +148,35 @@ void Banker::print() const {
     // std::cout << '\n';
 }
 
+bool Banker::bankersAlgorithm() const {
+    // Need is max-allocation
+    vector<vector<int>> need;
+
+    // Makes sure allocation and max have same length
+    if (allocation_.size() != max_.size()) return false;
+
+    // Iterates through all values in allocation and max
+    for (int y=0; y<allocation_.size(); ++y) {
+        vector<int> processNeed; // Row
+        for (int x=0; x<allocation_[y].size(); ++x) {
+            // Get new need value
+            int newNeed = max_[y][x] - allocation_[y][x];
+            // std::cout << newNeed << " ";
+            // Add value the row
+            processNeed.push_back(newNeed);
+        }
+        // std::cout << std::endl;
+        // Add row to list
+        need.push_back(processNeed);
+    }
+    return false;   
+}
+
 int main() {
     
     // Opens file as the bank on run
     Banker bank("input-file.txt");
     bank.print();
+    bank.bankersAlgorithm();
 
 }
