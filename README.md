@@ -49,7 +49,7 @@ It first calculates the need matrix by subtracting the allocation matrix from th
 COMPILER = g++
 COMPILERFLAGS = -std=c++17
 ```
-Chooses the compiler and the version of C++ to run. Here it chooses C++17.
+Chooses the compiler and the standard of C++ to run. Here it chooses C++17.
 
 ```
 TARGETS = a.out
