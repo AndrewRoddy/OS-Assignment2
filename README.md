@@ -400,4 +400,55 @@ Because the process is currently allocatable the program is set safe to true, te
     return true;   
 }
 ```
-The final thing done in this function is returning false if the process order has no way of being safe to run and true if it does.
+The final thing done in this function is returning false if the process order has no way of being safe to run and true if it does.### Main C++ File - `main.cpp`
+```cpp
+#include "banker.hpp"
+```
+The program include the `banker` header file which allows the programmer to use all of the function that were created.
+
+```cpp
+int main() {
+    
+    // Opens file as the bank on run
+    Banker bank("input-file.txt");
+    ```
+This runs the constructor which opens the file, parses the file, and closes the file. It also calculates need and initializes other variables.
+
+```cpp
+    bank.print();
+    ```
+The bank prints off the information that was parsed from the constructor.
+
+```cpp
+    bool safe = bank.bankersAlgorithm();
+```
+This function runs the bankers algorithm to detect if the processes can be run in a safe order. It then prints that result.
+
+```cpp
+    if (safe) {
+        std::cout << "System in safe state" << std::endl;
+        vector<int> order = bank.getSafeState();
+        ```
+If the program is safe it prints off that the system is in a safe state. It then gets the safe state order. This is the order that the processes can safely execute in.
+
+```cpp
+        for (int i=0; i < order.size(); ++i) {
+            if (i!=0)std::cout << " -> ";
+            std::cout << "P" << order[i];
+        }
+        std::cout << std::endl;
+```
+This prints off the proper process order.
+
+```cpp
+    } else {
+        std::cout << "System NOT in safe state" << std::endl;
+    }
+```
+If the program is not in a safe state then it prints that the program is not in a safe state.
+
+```cpp
+    return 0;
+}
+```
+Exits gracefully.
