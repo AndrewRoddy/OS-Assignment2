@@ -529,9 +529,9 @@ P3 -> P4 -> P1 -> P2 -> P0
 ```
 
 This is an example of the program being run using `WSL` or Windows Subsystem for Linux which allows the use of Linux on windows machines. This is also compiled using the `g++` command.
-![[IMG EX1.png]]
+![IMG EX1.png]
 This second example is an image of the program running on the Kent State `hornet` server. This runs the Linux system. This time the program was run using the `make` command.
-![[IMG EX2.png]]
+![IMG EX2.png]
 At the bottom of all of these outputs is the safe state and sequence.
 
 ## Thank You
