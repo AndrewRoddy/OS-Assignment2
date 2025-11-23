@@ -354,7 +354,7 @@ This iterates through every value in `allocation_`.
 ```cpp
             // Get new need value
             int newNeed = max_[y][x] - allocation_[y][x];
-    ```
+```
 This subtracts every value of `allocation_` from every value of  `max_`.
 ```cpp
             // Add value the row
@@ -428,7 +428,7 @@ This code is used to make sure that processes that have already been tested are 
 
 ```cpp
             if (allocatable(x, currentlyAvailable)) {
-    ```
+```
 This checks if the process is allocatable. If it is it runs the below code.
 
 ```cpp
@@ -468,12 +468,12 @@ int main() {
     
     // Opens file as the bank on run
     Banker bank("input-file.txt");
-    ```
+```
 This runs the constructor which opens the file, parses the file, and closes the file. It also calculates need and initializes other variables.
 
 ```cpp
     bank.print();
-    ```
+```
 The bank prints off the information that was parsed from the constructor.
 
 ```cpp
