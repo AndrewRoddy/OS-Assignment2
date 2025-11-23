@@ -14,7 +14,7 @@ public:
         getNeed();      // Finds the need
         safeState_ ={}; // Makes sure safe state is empty
         closeFile();    // Closes the file
-     }
+    }
 
     void print() const;
     bool bankersAlgorithm();
@@ -34,10 +34,11 @@ private:
 
     vector<vector<int>> allocation_;
     vector<vector<int>> max_;
-    vector<int> available_;
-    
     vector<vector<int>> need_;
+
+    vector<int> available_;
     vector<int> safeState_;
+
     std::ifstream file_;
 };
 
@@ -202,8 +203,8 @@ int main() {
         std::cout << "System in safe state" << std::endl;
         vector<int> order = bank.getSafeState();
         for (int i=0; i < order.size(); ++i) {
+            if (i!=0)std::cout << " -> ";
             std::cout << "P" << order[i];
-            if (i != (order.size()-1)) std::cout << ", ";
         }
         std::cout << std::endl;
 
