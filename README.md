@@ -89,3 +89,42 @@ clean:
 ```
 Here it removes all `.o` files and the selected `a.out` file to clean the system.
 This can be run by doing `make clean` in the terminal.
+
+### Banker Header File - `banker.hpp`
+```cpp
+#ifndef BANKER_HPP_
+#define BANKER_HPP_
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+```
+This includes all of the headers that the program will be using.
+It uses:
+`iostream` for output to the terminal
+`fstream` for the ability to read and write to files
+`string` to use `std::string` and features of strings
+`vector` for `std::vector` and `.push_back()` for the vectors
+
+```cpp
+using std::vector;
+```
+This allows for the user of `std::vector` without the `std::`
+
+```cpp
+class Banker {
+```
+Begins the `Banker` class. This class is where all variables and functions for this project are stored.
+
+```cpp
+public:
+    Banker(std::string file) { 
+        openFile(file); // Opens the file
+        parseFile();    // Gets the variables
+        getNeed();      // Finds the need
+        safeState_ ={}; // Makes sure safe state is empty
+        closeFile();    // Closes the file
+    }
+```
+The constructor opens the file, then parses it which gets the data from the file and assigns it to private variables. Then it finds the need for each process. Then it initializes the safe state variable to empty. After that it closes the file as it is done using it.
