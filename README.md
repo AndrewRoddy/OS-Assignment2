@@ -170,4 +170,57 @@ These are the member variables used in the program.
 #endif
 ```
 This ends the `#ifndef` statement to define everything needed in the header file.
+The input file is formatted in a way where each different group is titled with three dashes at the beginning. This if statement detects if the program is going to experience a mode change.e to a string of variable name `line`.
+
+```cpp
+        // Change the mode if necessary
+        if (line.find("---") != std::string::npos) { 
+```
 The input file is formatted in a way where each different group is titled with three dashes at the beginning. This if statement detects if the program is going to experience a mode change.
+
+```cpp
+            // Sets the mode based on line
+            if (line.find("allocation") != std::string::npos) {
+                mode = PM::allocation;
+            } else if (line.find("max") != std::string::npos) {
+                mode = PM::max;
+            } else if (line.find("available") != std::string::npos) {
+                mode = PM::available;
+            }
+```
+Based on the text in the line the program will switch what mode the program is in and using.
+
+```cpp
+        } else {
+            // Sets the vector based on the mode
+
+            // Makes the vector
+            // Subtracts 48 to make it a proper number
+            vector<int> vec = {
+                line[0] - 48,
+                line[3] - 48,
+                line[6] - 48
+            };
+```
+If the file is not a mode switch then get the three numbers that are separated by the commas. This creates a vector of those numbers.
+
+```cpp
+            // Based on the mode add to the vector
+            if (mode == PM::allocation) allocation_.push_back(vec);
+            if (mode == PM::max)        max_.push_back(vec);
+            if (mode == PM::available)  available_ = vec;
+        }
+```
+After getting the three numbers then input those numbers into their respective vector.
+For the available vector it just sets the gotten vector to the variable.
+
+```cpp
+    }
+}
+```
+These end off the original while statement and the function as a whole.
+
+```cpp
+void Banker::print() const {
+```
+This print function prints out all of the information that the program got from parsing the file. it never accesses the file . It just prints the file information.
