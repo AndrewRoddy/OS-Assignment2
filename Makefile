@@ -1,5 +1,5 @@
 COMPILER = g++
-COMPILERFLAGS = -std=c++11 -pthread
+COMPILERFLAGS = -std=c++17
 
 TARGETS = a.out
 
