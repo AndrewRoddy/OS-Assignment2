@@ -313,7 +313,7 @@ This places spaces and bars in  between the table columns.
         for (int x=0; x<3; ++x) {
             std::cout << max_[y][x] << " ";
         }
-        ```
+```
 This prints off all of the values in the max vector
 
 ```cpp
@@ -329,7 +329,7 @@ This puts spacing and a bar in between each different type of value.
             }
         };
         std::cout << std::endl;
-        ```
+```
 This makes sure that only the first row of values is printed for the `available_` vector as unlike the other two 2D vectors this one only has one row.
 
 ```cpp
@@ -348,19 +348,19 @@ This function calculates the need 2D vector and stores it in the `need_` variabl
     for (int y=0; y<allocation_.size(); ++y) {
         vector<int> processNeed; // Row
         for (int x=0; x<allocation_[y].size(); ++x) {
-        ```
+```
 This iterates through every value in `allocation_`.
 
 ```cpp
             // Get new need value
             int newNeed = max_[y][x] - allocation_[y][x];
-            ```
+    ```
 This subtracts every value of `allocation_` from every value of  `max_`.
 ```cpp
             // Add value the row
             processNeed.push_back(newNeed);
         }
-        ```
+```
 This then stores them in `processNeed` which is a vector of integers.
 
 ```cpp
@@ -428,7 +428,7 @@ This code is used to make sure that processes that have already been tested are 
 
 ```cpp
             if (allocatable(x, currentlyAvailable)) {
-            ```
+    ```
 This checks if the process is allocatable. If it is it runs the below code.
 
 ```cpp
@@ -436,7 +436,7 @@ This checks if the process is allocatable. If it is it runs the below code.
                 for (int y=0; y<allocation_[0].size(); ++y) {
                     currentlyAvailable[y] += allocation_[x][y];
                 } 
-                ```
+```
 This iterates through the allocation vector and adds every index of memory to the currently available vector.
 
 ```cpp
@@ -485,7 +485,7 @@ This function runs the bankers algorithm to detect if the processes can be run i
     if (safe) {
         std::cout << "System in safe state" << std::endl;
         vector<int> order = bank.getSafeState();
-        ```
+```
 If the program is safe it prints off that the system is in a safe state. It then gets the safe state order. This is the order that the processes can safely execute in.
 
 ```cpp
