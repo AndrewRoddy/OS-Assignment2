@@ -12,18 +12,23 @@ public:
         openFile(file); // Opens the file
         parseFile();    // Gets the variables
         getNeed();      // Finds the need
+        safeState_ ={}; // Makes sure safe state is empty
         closeFile();    // Closes the file
      }
 
     void print() const;
-    bool bankersAlgorithm() const;
+    bool bankersAlgorithm();
 
     void openFile(const std::string& fileName);
     void parseFile();
     void getNeed();
     void closeFile();
-
-    bool allocatable(int, vector<int>) const;
+    
+    bool allocatable(int, vector<int>&) const;
+    vector<int> getSafeState() {
+        if (safeState_.empty()) { bankersAlgorithm(); }
+        return safeState_;
+    }
 
 private:
 
@@ -32,7 +37,7 @@ private:
     vector<int> available_;
     
     vector<vector<int>> need_;
-
+    vector<int> safeState_;
     std::ifstream file_;
 };
 
@@ -143,17 +148,46 @@ void Banker::getNeed() {
         need_.push_back(processNeed);
     }
 }
-bool Banker::allocatable(int rowIndex, vector<int> nowAvailable) const {
+bool Banker::allocatable(int rowIndex, vector<int>& nowAvailable) const {
     // If need is ever greater than now available cannot allocate
-    for (int x=0; x<allocation_.size(); ++x) {
-        if (need_[rowIndex][x] > nowAvailable[x]) return false;
+    for (int x=0; x<nowAvailable.size(); ++x) {
+        if (need_[rowIndex][x] > nowAvailable[x]) { return false; }
     }
-    return true; // If need is never less than now available
+    return true; // If need is never greater than now available
 }
-bool Banker::bankersAlgorithm() const { 
+bool Banker::bankersAlgorithm() { 
+    safeState_.clear(); // Makes sure safe state is empty
 
+    int size = allocation_.size();
     // Makes sure allocation and max have same length
-    if (allocation_.size() != max_.size()) return false;
+    if (size != max_.size()) return false;
+    // Vector of if its tested or not
+    vector<bool> tested(size, false);
+
+    // Temporary copy of available_ to be edited
+    vector<int> currentlyAvailable = available_;
+    bool safe;
+    int processesDone = 0;
+
+    while (processesDone < size) {
+        safe = false;
+        for (int x=0; x<size; ++x) {
+            if (tested[x]) continue; // If process already tested then skip
+            if (allocatable(x, currentlyAvailable)) {
+                // iterate through row
+                for (int y=0; y<allocation_[0].size(); ++y) {
+                    currentlyAvailable[y] += allocation_[x][y];
+                } 
+                
+                tested[x] = true;
+                safe = true;
+
+                safeState_.push_back(x);
+                processesDone++;
+            }
+        }
+        if (!safe) return false;
+    }
     return true;   
 }
 
@@ -163,7 +197,19 @@ int main() {
     Banker bank("input-file.txt");
     bank.print();
     bool safe = bank.bankersAlgorithm();
-    if (safe) std::cout << "System in safe state" << std::endl;
-    else std::cout << "System NOT in safe state" << std::endl;
 
+    if (safe) {
+        std::cout << "System in safe state" << std::endl;
+        vector<int> order = bank.getSafeState();
+        for (int i=0; i < order.size(); ++i) {
+            std::cout << "P" << order[i];
+            if (i != (order.size()-1)) std::cout << ", ";
+        }
+        std::cout << std::endl;
+
+    } else {
+        std::cout << "System NOT in safe state" << std::endl;
+    }
+
+    return 0;
 }
