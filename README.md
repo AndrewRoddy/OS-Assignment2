@@ -36,6 +36,7 @@ make clean
 This is a very strict input file format. Only the integer values can be modified as everything else must stay the same. The user must guarantee this format is followed.
 The `---` explain what type of value is below for easy understanding from just looking at the input file
 # Program Description
+
 ### Bankers Algorithm
 The system is in a safe state. The safe sequence is P3 -> P4 -> P1 -> P2 -> P0.
 
@@ -170,7 +171,62 @@ These are the member variables used in the program.
 #endif
 ```
 This ends the `#ifndef` statement to define everything needed in the header file.
-The input file is formatted in a way where each different group is titled with three dashes at the beginning. This if statement detects if the program is going to experience a mode change.e to a string of variable name `line`.
+
+### Banker C++ File - `banker.cpp`
+```cpp
+#include "banker.hpp"
+```
+The program includes the header file which allows the use of the class I already defined.
+
+```cpp
+void Banker::openFile(const std::string& fileName) {
+    // Opens the file
+    file_.open(fileName);
+```
+This opens the file using the `fstream` library.
+
+```cpp
+    // Makes sure the file opened properly
+    if (!file_.is_open()) {
+        std::cout << "\033[31m"; // Makes the text red
+        std::cout << "ERROR : File is not opening." << std::endl;
+    } else {
+        std::cout << "\033[32m"; // Makes th text green
+        std::cout << "File opened!" << std::endl;
+    }
+    std::cout << "\033[37m"; // Reset text color back to white
+}
+```
+The function then checks if the file is open. If the file is not open it prints an error message in red. If the file is open it prints `File opened!` in green.
+
+```cpp
+void Banker::closeFile() {
+    if (file_.is_open()) {
+        file_.close();
+        std::cout << "\033[32m"; // Makes th text green
+        std::cout << "File closed!" << std::endl;
+        std::cout << "\033[37m"; // Reset text color back to white
+    }
+}
+```
+This function closes the file if it is open. Then it reports back that the file closed if it was open.
+
+```cpp
+void Banker::parseFile() {
+
+    // Parse Mode
+    enum class PM { none, allocation, max, available };
+    PM mode = PM::none;
+```
+This creates an enumerated class that contains the states that parsing our file can be in. 
+It sets it to none to start out with.
+
+```cpp
+    std::string line;
+    while (std::getline(file_, line)) {
+        if (line.empty()) continue;
+```
+This allows the program to iterate through all lines and sets each line in the file to a string of variable name `line`.
 
 ```cpp
         // Change the mode if necessary
@@ -400,7 +456,8 @@ Because the process is currently allocatable the program is set safe to true, te
     return true;   
 }
 ```
-The final thing done in this function is returning false if the process order has no way of being safe to run and true if it does.### Main C++ File - `main.cpp`
+The final thing done in this function is returning false if the process order has no way of being safe to run and true if it does.
+### Main C++ File - `main.cpp`
 ```cpp
 #include "banker.hpp"
 ```
@@ -452,7 +509,6 @@ If the program is not in a safe state then it prints that the program is not in 
 }
 ```
 Exits gracefully.
-
 # Examples and Results
 
 This is a sample output of the program running.
@@ -471,6 +527,7 @@ P4 | 0 0 2 | 4 3 3 |
 System in safe state
 P3 -> P4 -> P1 -> P2 -> P0
 ```
+
 This is an example of the program being run using `WSL` or Windows Subsystem for Linux which allows the use of Linux on windows machines. This is also compiled using the `g++` command.
 ![[IMG EX1.png]]
 This second example is an image of the program running on the Kent State `hornet` server. This runs the Linux system. This time the program was run using the `make` command.
