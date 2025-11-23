@@ -170,3 +170,4 @@ These are the member variables used in the program.
 #endif
 ```
 This ends the `#ifndef` statement to define everything needed in the header file.
+The input file is formatted in a way where each different group is titled with three dashes at the beginning. This if statement detects if the program is going to experience a mode change.
