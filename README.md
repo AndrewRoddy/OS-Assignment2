@@ -44,6 +44,9 @@ The bankers algorithm can be used by operating systems to avoid deadlock. The al
 
 It first calculates the need matrix by subtracting the allocation matrix from the max matrix. It then looks for a process that hasn't been tested yet and checks if the need is less than or equal to the currently available. If need is less than or equal to available then it adds the allocation to the available. It keeps repeating this until either no more processes can be selected and deadlock is possible or all processes are in a safe sequence. If all processes are in a safe sequence then it can return true.
 
+The order that the processes are repeatedly selected and released during the algorithm becomes the safe sequence. Every time a processes is detected to be allocatable it is added to the back of the list. When the algorithm finally finishes it contains the exact order that they were detected to be allocable.
+
+
 ### Make File - `Makefile`
 ```Makefile
 COMPILER = g++
