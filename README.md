@@ -128,3 +128,45 @@ public:
     }
 ```
 The constructor opens the file, then parses it which gets the data from the file and assigns it to private variables. Then it finds the need for each process. Then it initializes the safe state variable to empty. After that it closes the file as it is done using it.
+
+```cpp
+    void print() const;
+    bool bankersAlgorithm();
+
+    void openFile(const std::string& fileName);
+    void parseFile();
+    void getNeed();
+    void closeFile();
+    
+    bool allocatable(int, vector<int>&) const;
+```
+Here the program declares a lot of member functions.
+These functions will all be explained later.
+```cpp
+    vector<int> getSafeState() {
+        if (safeState_.empty()) { bankersAlgorithm(); }
+        return safeState_;
+    }
+```
+This function checks if the user has already run and created the safe state vector. If it has not it runs the bankers algorithm function.
+It then returns the correct safe state vector.
+
+```cpp
+private:
+
+    vector<vector<int>> allocation_;
+    vector<vector<int>> max_;
+    vector<vector<int>> need_;
+
+    vector<int> available_;
+    vector<int> safeState_;
+
+    std::ifstream file_;
+};
+```
+These are the member variables used in the program.
+
+```cpp
+#endif
+```
+This ends the `#ifndef` statement to define everything needed in the header file.
