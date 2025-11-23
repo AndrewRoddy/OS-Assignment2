@@ -452,3 +452,22 @@ If the program is not in a safe state then it prints that the program is not in 
 }
 ```
 Exits gracefully.
+
+# Examples and Results
+
+This is a sample output of the program running.
+```
+File opened!
+File closed!
+     Alloc |  Max  | Avail
+     ----- | ----- | -----
+     A B C | A B C | A B C
+     ----- | ----- | -----
+P0 | 0 1 0 | 7 5 3 | 3 2 2
+P1 | 2 0 0 | 3 3 2 |
+P2 | 3 0 2 | 9 0 2 |
+P3 | 2 2 1 | 2 2 2 |
+P4 | 0 0 2 | 4 3 3 |
+System in safe state
+P3 -> P4 -> P1 -> P2 -> P0
+```
