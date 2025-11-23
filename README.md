@@ -306,3 +306,98 @@ This subtracts every value of `allocation_` from every value of  `max_`.
         }
         ```
 This then stores them in `processNeed` which is a vector of integers.
+
+```cpp
+        // Add row to list
+        need_.push_back(processNeed);
+```
+The vector of integers is then pushed into the 2D vector of `need_`.
+
+```cpp
+    }
+}
+```
+This closes off the get need function and the larger for loop.
+
+```cpp
+bool Banker::allocatable(int rowIndex, vector<int>& nowAvailable) const {
+    // If need is ever greater than now available cannot allocate
+    for (int x=0; x<nowAvailable.size(); ++x) {
+        if (need_[rowIndex][x] > nowAvailable[x]) { return false; }
+    }
+    return true; // If need is never greater than now available
+}
+```
+This function calculates if the memory is allocatable. It returns false if need is greater than the available memory. It returns true otherwise.
+
+```cpp
+bool Banker::bankersAlgorithm() { 
+```
+This function runs the bankers algorithm and returns true if the processes memory is able to be allocated in a safe way. It returns false otherwise.
+
+```cpp
+    safeState_.clear(); // Makes sure safe state is empty
+```
+This clears out the safe state vector to make sure it is empty before proceeding.
+
+```cpp
+    int size = allocation_.size();
+    // Makes sure allocation and max have same length
+    if (size != max_.size()) return false;
+```
+This makes sure that the allocation vector size is the same as the max vector size. This makes sure both are using the same amount of processes as otherwise there would not be a way to run the bankers algorithm.
+
+```cpp
+    // Vector of if its tested or not
+    vector<bool> tested(size, false);
+
+    // Temporary copy of available_ to be edited
+    vector<int> currentlyAvailable = available_;
+    bool safe;
+    int processesDone = 0;
+```
+Creates and initializes variables to be used later in the program.
+
+```cpp
+    while (processesDone < size) {
+        safe = false;
+        for (int x=0; x<size; ++x) {
+```
+This iterates as long as the amount of processes the program has completed is less than the size of the allocated vector. It then iterates through each process.
+
+```cpp
+            if (tested[x]) continue; // If process already tested then skip
+```
+This code is used to make sure that processes that have already been tested are no longer checked or used by the program.
+
+```cpp
+            if (allocatable(x, currentlyAvailable)) {
+            ```
+This checks if the process is allocatable. If it is it runs the below code.
+
+```cpp
+                // iterate through row
+                for (int y=0; y<allocation_[0].size(); ++y) {
+                    currentlyAvailable[y] += allocation_[x][y];
+                } 
+                ```
+This iterates through the allocation vector and adds every index of memory to the currently available vector.
+
+```cpp
+                tested[x] = true;
+                safe = true;
+
+                safeState_.push_back(x);
+                processesDone++;
+```
+Because the process is currently allocatable the program is set safe to true, tested at the current index to true, add the process to the safe state vector, and add one to the number of processes the program has completed.
+
+```cpp
+            }
+        }
+        if (!safe) return false;
+    }
+    return true;   
+}
+```
+The final thing done in this function is returning false if the process order has no way of being safe to run and true if it does.
