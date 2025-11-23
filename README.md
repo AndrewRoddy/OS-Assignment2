@@ -15,3 +15,21 @@ As a `Makefile` is included the user can use `make` to run the program and `make
 make
 make clean
 ```
+
+### Input File Format - `input-file.txt`
+```
+---allocation
+0, 1, 0,
+2, 0, 0,
+3, 0, 2,
+2, 2, 1,
+0, 0, 2,
+---max
+7, 5, 3,
+3, 3, 2,
+9, 0, 2,
+2, 2, 2,
+4, 3, 3,
+---available
+3, 2, 2,
+```
