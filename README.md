@@ -33,3 +33,6 @@ make clean
 ---available
 3, 2, 2,
 ```
+This is a very strict input file format. Only the integer values can be modified as everything else must stay the same. The user must guarantee this format is followed.
+The `---` explain what type of value is below for easy understanding from just looking at the input file
+# Program Description
