@@ -224,3 +224,85 @@ These end off the original while statement and the function as a whole.
 void Banker::print() const {
 ```
 This print function prints out all of the information that the program got from parsing the file. it never accesses the file . It just prints the file information.
+
+```cpp
+    std::cout << "     Alloc |  Max  | Avail" << std::endl;
+    std::cout << "     ----- | ----- | -----" << std::endl;
+    std::cout << "     A B C | A B C | A B C" << std::endl;
+    std::cout << "     ----- | ----- | -----" << std::endl;
+```
+This print function prints out the header of the table.
+
+```cpp
+    for (int y=0; y<allocation_.size(); ++y) {
+        std::cout << "P" << y << " | ";
+```
+This iterates through every process printing information for each.
+
+```cpp
+        // Prints off allocation
+        for (int x=0; x<3; ++x) {
+            std::cout << allocation_[y][x] << " ";
+        }
+```
+This prints all of the allocation information separated by spaces.
+
+```cpp
+        std::cout << "| "; // Spacing
+```
+This places spaces and bars in  between the table columns.
+
+```cpp
+        // Prints off Max row
+        for (int x=0; x<3; ++x) {
+            std::cout << max_[y][x] << " ";
+        }
+        ```
+This prints off all of the values in the max vector
+
+```cpp
+        std::cout << "| "; // Spacing
+```
+This puts spacing and a bar in between each different type of value.
+
+```cpp
+        // There is only one line for available
+        if (y==0) {
+            for (int x=0; x<3; ++x) {
+                std::cout << available_[x] << " " ;
+            }
+        };
+        std::cout << std::endl;
+        ```
+This makes sure that only the first row of values is printed for the `available_` vector as unlike the other two 2D vectors this one only has one row.
+
+```cpp
+    }
+}
+```
+This closes out the for loop used to print off each column and closes out the print function as a whole.
+
+```cpp
+void Banker::getNeed() { 
+```
+This function calculates the need 2D vector and stores it in the `need_` variable.
+
+```cpp
+    // Iterates through all values in allocation and max
+    for (int y=0; y<allocation_.size(); ++y) {
+        vector<int> processNeed; // Row
+        for (int x=0; x<allocation_[y].size(); ++x) {
+        ```
+This iterates through every value in `allocation_`.
+
+```cpp
+            // Get new need value
+            int newNeed = max_[y][x] - allocation_[y][x];
+            ```
+This subtracts every value of `allocation_` from every value of  `max_`.
+```cpp
+            // Add value the row
+            processNeed.push_back(newNeed);
+        }
+        ```
+This then stores them in `processNeed` which is a vector of integers.
